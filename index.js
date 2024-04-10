@@ -1,21 +1,31 @@
+import bodyParser from "body-parser";
 import express from "express";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import bodyParser from "body-parser";
+import nunjucks from "nunjucks";
 
 const app = express();
 const port = 3000;
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-	res.sendFile(__dirname + "/views/index.html");
+nunjucks.configure("views", {
+	autoescape: true,
+	express: app,
 });
 
-app.post("/answers", (req, res) => {
-	res.send(req.body);
+app.get("/", (req, res) => {
+	res.render("index.njk");
+});
+
+app.get("/answer", (req, res) => {
+	res.render("answer.njk", req.query);
+});
+
+app.post("/answer", (req, res) => {
+	res.render("answer.njk", { ...req.body, ...req.query });
 });
 
 app.listen(port, () => {
