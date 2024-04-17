@@ -1,3 +1,1 @@
 # learnexpress
-
-db.sqlite
