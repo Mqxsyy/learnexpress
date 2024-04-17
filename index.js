@@ -3,6 +3,7 @@ import express from "express";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import nunjucks from "nunjucks";
+import { Sequelize, QueryTypes } from "sequelize";
 
 const app = express();
 const port = 3000;
@@ -16,7 +17,18 @@ nunjucks.configure("views", {
 	express: app,
 });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+	const sequelize = new Sequelize({
+		dialect: "sqlite",
+		storage: "db.sqlite",
+	});
+
+	const posts = await sequelize.query("SELECT * FROM `posts`", {
+		type: QueryTypes.SELECT,
+	});
+
+	console.log(posts);
+
 	res.render("index.njk");
 });
 
