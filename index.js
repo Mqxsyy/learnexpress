@@ -4,6 +4,7 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import nunjucks from "nunjucks";
 import { Sequelize, QueryTypes } from "sequelize";
+import db from "./models/index.js";
 
 const app = express();
 const port = 3000;
@@ -18,15 +19,7 @@ nunjucks.configure("views", {
 });
 
 app.get("/", async (req, res) => {
-	const sequelize = new Sequelize({
-		dialect: "sqlite",
-		storage: "db.sqlite",
-	});
-
-	const posts = await sequelize.query("SELECT * FROM `posts`", {
-		type: QueryTypes.SELECT,
-	});
-
+	let posts = await db.Post.findAll();
 	console.log(posts);
 
 	res.render("index.njk");
