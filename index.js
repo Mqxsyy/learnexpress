@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import nunjucks from "nunjucks";
 import { Sequelize, QueryTypes } from "sequelize";
 import db from "./models/index.js";
+import paginate from "./paginate.js";
 
 const app = express();
 const port = 3000;
@@ -19,10 +20,11 @@ nunjucks.configure("views", {
 });
 
 app.get("/", async (req, res) => {
-	let posts = await db.Post.findAll();
-	console.log(posts);
+	const [posts, pagination] = await paginate(db.Post, req.query.page, 20);
 
-	res.render("index.njk");
+	// console.log(posts);
+
+	res.render("index.njk", { posts, pagination });
 });
 
 app.get("/answer", (req, res) => {
