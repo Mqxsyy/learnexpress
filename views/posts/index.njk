@@ -1,0 +1,40 @@
+{% extends "partials/layout.njk" %}
+{# {% block title %}Home{% endblock %} #}
+{% block content %}
+    <a class="btn btn-primary" href="/posts/create">Add post</a>
+    {% include "partials/pagination.njk" %}
+    <table class="table table-stiped table-hover">
+        <thead>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Created At</th>
+            <th>Update At</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.createdAt }}</td>
+                    <td>{{ post.updatedAt }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-info" href="posts/details/{{ post.id }}">Details</a>
+                            <a class="btn btn-warning" href="posts/edit/{{ post.id }}">Edit</a>
+                            <a class="btn btn-danger" href="posts/delete/{{ post.id }}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Created At</th>
+            <th>Update At</th>
+            <th>Actions</th>
+        </tfoot>
+    </table>
+    {% include "partials/pagination.njk" %}
+{% endblock %}

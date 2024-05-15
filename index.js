@@ -6,6 +6,7 @@ import nunjucks from "nunjucks";
 import { Sequelize, QueryTypes } from "sequelize";
 import db from "./models/index.js";
 import paginate from "./paginate.js";
+import postsController from "./controllers/postsController.js";
 
 const app = express();
 const port = 3000;
@@ -15,26 +16,28 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 
 nunjucks.configure("views", {
-	autoescape: true,
-	express: app,
+  autoescape: true,
+  express: app,
 });
 
 app.get("/", async (req, res) => {
-	const [posts, pagination] = await paginate(db.Post, req.query.page, 20);
+  const [posts, pagination] = await paginate(db.Post, req.query.page, 20);
 
-	// console.log(posts);
+  // console.log(posts);
 
-	res.render("index.njk", { posts, pagination });
+  res.render("index.njk", { posts, pagination });
 });
 
 app.get("/answer", (req, res) => {
-	res.render("answer.njk", req.query);
+  res.render("answer.njk", req.query);
 });
 
 app.post("/answer", (req, res) => {
-	res.render("answer.njk", { ...req.body, ...req.query });
+  res.render("answer.njk", { ...req.body, ...req.query });
 });
 
+app.use("/posts", postsController);
+
 app.listen(port, () => {
-	console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Example app listening on port http://localhost:${port}`);
 });

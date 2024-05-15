@@ -1,0 +1,29 @@
+{% extends "partials/layout.njk" %}
+{# {% block title %}Home{% endblock %} #}
+{% block content %}
+    <table class="table table-stiped table-hover">
+        <tbody>
+            <tr>
+                <th scope="row">Id</th>
+                <td>{{ post.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Title</th>
+                <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Body</th>
+                <td>{{ post.body }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Created at</th>
+                <td>{{ post.createdAt }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Updated at</th>
+                <td>{{ post.updatedAt }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="/posts">Back to posts</a>
+{% endblock %}
