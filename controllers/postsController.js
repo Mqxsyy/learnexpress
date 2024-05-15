@@ -41,7 +41,6 @@ router.post("/edit/:id", async (req, res) => {
     res.redirect("/posts");
 });
 
-// TODO: fix
 router.get("/delete/:id", async (req, res) => {
     await db.Post.destroy({ where: { id: req.params.id } });
     res.redirect("/posts");
